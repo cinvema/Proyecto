@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:descendantFocusability="blocksDescendants">
+
+      <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorAccent"
+        android:orientation="vertical"
+        android:padding="2dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/white"
+            android:orientation="vertical"
+            android:padding="5dp">
+
+            <TextView
+                android:id="@+id/id_averia_it"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:textColor="@android:color/holo_red_dark"
+                tools:text="1"
+                />
+
+            <TextView
+                android:id="@+id/nombre_averia_it"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:text="Averia Ejemplo" />
+
+            <TextView
+                android:id="@+id/tipo_averia_it"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:text="Tipo Averia" />
+
+
+            <TextView
+                android:id="@+id/descripcion_averia_it"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:text="Descripcion" />
+
+
+        </LinearLayout>
+    </LinearLayout>
+
+</RelativeLayout>
