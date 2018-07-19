@@ -1,6 +1,7 @@
 package com.cenfotec.proyecto.ui;
 
 import android.Manifest;
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -18,7 +19,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -28,16 +31,21 @@ import com.cenfotec.proyecto.entities.Ubicacion;
 import com.cenfotec.proyecto.entities.Upload;
 import com.cenfotec.proyecto.entities.Usuario;
 import com.cenfotec.proyecto.helpers.PreferencesManager;
+import com.cenfotec.proyecto.logic.RespuestaImagen;
 import com.cenfotec.proyecto.logic.Variables;
 import com.cenfotec.proyecto.service.GestorServicio;
 import com.cenfotec.proyecto.service.ServicioAveria;
-
+import com.cenfotec.proyecto.service.ServicioImgur;
 import java.io.File;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -68,18 +76,22 @@ public class AddAveriaActivity extends AppCompatActivity implements View.OnClick
     @BindView(R.id.btn_agregar_foto_add)
     Button botonAgregarFoto;
 
+    @BindView(R.id.ib_obtener_fecha)
+    ImageButton botonFecha;
+
     Averia averia;
-    Ubicacion ubicacion;
+    Ubicacion mUbicacion;
     Usuario usuarioAveria;
 
     private Uri mUri;
-    // private Upload upload;
-    private static final int PERM_CODE = 1000;
-    private static final int REQUEST_TAKE_PHOTO = 101;
+
     LocationManager mLm;
     int mTipoUbicacion = 2;
     private int mValorNuevaAveria = 2 ;
     private String mId;
+    private File mFile;
+    private String mUrlImagen="";
+
 
 
     @Override
@@ -90,13 +102,16 @@ public class AddAveriaActivity extends AppCompatActivity implements View.OnClick
         ButterKnife.bind(this);
         botonAgregar.setOnClickListener(this);
         botonAgregarFoto.setOnClickListener(this);
+        botonFecha.setOnClickListener(this);
 
+        mUbicacion = new Ubicacion();
         //leer de que tipo es la averia para saber si se carga la ubicacion actual o
         // la ubicacion del mapa en donde indicó el usuario
         mValorNuevaAveria = getIntent().getIntExtra("NuevaAveria",0);
         mId = getIntent().getStringExtra("Id");
-
-        id.setText("Averia-" + mId);
+        mUbicacion =  getIntent().getParcelableExtra("Ubicacion");
+        //asignar el id generado a la caja de texto
+        id.setText("1-Averia-" + mId);
 
     }
 
@@ -106,12 +121,14 @@ public class AddAveriaActivity extends AppCompatActivity implements View.OnClick
         if (v.equals(botonAgregarFoto)) {
             verificarPermisosAlmacenamientoExterno();
         }
+        if(v.equals(botonFecha))
+            obtenerFecha();
 
         if (v.equals(botonAgregar)) {
 
             //armar el objeto averia segun lo que indique el usuario
             averia = new Averia();
-            ubicacion = new Ubicacion();
+            Ubicacion ubicacionAveria = new Ubicacion();
             usuarioAveria = new Usuario();
 
             //obtener el usuario de la base de datos segun el usuario que este logueado
@@ -130,9 +147,9 @@ public class AddAveriaActivity extends AppCompatActivity implements View.OnClick
                 mLm = (LocationManager) getApplicationContext()
                         .getSystemService(Context.LOCATION_SERVICE);
                 //ubicacion = verificarPermisosUbicacion();
-                ubicacion =  obtenerLocalizacion();
+                ubicacionAveria =  obtenerLocalizacion();
             }else if(mValorNuevaAveria == 1){ //si es una averia creada desde mapa
-
+                ubicacionAveria = mUbicacion;
 
             }
 
@@ -143,8 +160,8 @@ public class AddAveriaActivity extends AppCompatActivity implements View.OnClick
             averia.usuario = usuarioAveria;
             averia.fecha = fecha.getText().toString();
             averia.descripcion = descripcion.getText().toString();
-            averia.imagen = "url de la imagen";
-            averia.ubicacion = ubicacion;
+            averia.imagen = mUrlImagen;
+            averia.ubicacion = ubicacionAveria;
 
             //Se obtiene la referencia singleton desde el gestor.
             ServicioAveria servicio = GestorServicio.obtenerServicio();
@@ -161,6 +178,11 @@ public class AddAveriaActivity extends AppCompatActivity implements View.OnClick
                         Toast.makeText(getApplicationContext(),
                                 "Exito registrando la averia",
                                 Toast.LENGTH_SHORT).show();
+
+                        Intent intent = new Intent(AddAveriaActivity.this, MainActivity.class);
+                        startActivity(intent);
+                        finish();
+
                     }
 
                 }
@@ -186,16 +208,16 @@ public class AddAveriaActivity extends AppCompatActivity implements View.OnClick
         if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
             continuarTomarFoto();
         } else {
-            askForPermissionAccesoExterno();
+            preguntarPermisoAccesoExterno();
 
         }
     }
 
-    public void askForPermissionAccesoExterno() {
+    public void preguntarPermisoAccesoExterno() {
         //Hacemos la solicitud de permiso
         ActivityCompat.requestPermissions(this,
                 new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                PERM_CODE);
+                Variables.PERM_CODE);
 
         //Obtenemos el estado actual de los permisos
         int permissionCheck = ContextCompat.checkSelfPermission(this,
@@ -212,7 +234,7 @@ public class AddAveriaActivity extends AppCompatActivity implements View.OnClick
         //Llamamos al metodo crearArchivo para obtener un
         //archivo en el cual guardar la foto
        // File archivo = crearArchivo();
-        File mFile = crearArchivo();
+        mFile = crearArchivo();
 
         //Construimos un intent con una peticion de captura
         //de imagenes
@@ -229,7 +251,7 @@ public class AddAveriaActivity extends AppCompatActivity implements View.OnClick
         takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, mUri);
         //Ejecutamos el intent, cediendo control a la aplicacion
         //de toma de fotos que el usuario seleccione
-        startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
+        startActivityForResult(takePictureIntent, Variables.REQUEST_TAKE_PHOTO);
     }
 
     private File crearArchivo() {
@@ -257,6 +279,28 @@ public class AddAveriaActivity extends AppCompatActivity implements View.OnClick
         }
     }
 
+    private void obtenerFecha(){
+
+        DatePickerDialog recogerFecha = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                //Esta variable lo que realiza es aumentar en uno el mes ya que comienza desde 0 = enero
+                final int mesActual = month + 1;
+                //Formateo el día obtenido: antepone el 0 si son menores de 10
+                String diaFormateado = (dayOfMonth < 10)? Variables.CERO + String.valueOf(dayOfMonth):String.valueOf(dayOfMonth);
+                //Formateo el mes obtenido: antepone el 0 si son menores de 10
+                String mesFormateado = (mesActual < 10)? Variables.CERO + String.valueOf(mesActual):String.valueOf(mesActual);
+                //Muestro la fecha con el formato deseado
+                fecha.setText(diaFormateado + Variables.BARRA + mesFormateado + Variables.BARRA + year);
+
+            }
+
+        },Variables.ANIO, Variables.MES, Variables.DIA);
+        //Muestro el widget
+        recogerFecha.show();
+
+    }
+
     //Al haber llamado a onStartActivityForResult, indicamos al
     //sistema que llame a este callback una vez la foto haya sido
     //capturada y almacenada
@@ -269,7 +313,7 @@ public class AddAveriaActivity extends AppCompatActivity implements View.OnClick
 
         //Tambien verificamos que el codigo resultado sea RESULT_OK,
         //lo cual indica que la foto fue capturada exitosamente.
-        if (requestCode == REQUEST_TAKE_PHOTO &&
+        if (requestCode == Variables.REQUEST_TAKE_PHOTO &&
                 resultCode == RESULT_OK) {
             try {
                 //Obtenemos el BitMap a partir del URI que habiamos
@@ -281,17 +325,59 @@ public class AddAveriaActivity extends AppCompatActivity implements View.OnClick
                 //Mostramos el bitmap en el ImageView declarado
                 //en nuestro layout file
                 imageView.setImageBitmap(imageBitmap);
+                subirImagen();
 
                 }catch(Exception e){
                 Log.d("Error", e.getMessage());
             }
         }
 
-        ///subida de la imagen
-
     }
 
-    ///metodos para ubicacion
+    private void subirImagen(){
+
+        ServicioImgur imgurService = ServicioImgur.retrofit.create(ServicioImgur.class);
+        final Call<RespuestaImagen> call =
+                imgurService.postImage(
+                        "Nombre",
+                        "Descripcion", "", "",
+                        MultipartBody.Part.createFormData(
+                                "image",
+                                mFile.getName(),
+                                RequestBody.create(MediaType.parse("image/*"), mFile)
+                        ));
+
+        call.enqueue(new Callback<RespuestaImagen>() {
+            @Override
+            public void onResponse(Call<RespuestaImagen> call, Response<RespuestaImagen> response) {
+                if (response == null) {
+                    Toast.makeText(AddAveriaActivity.this, "No se ha podido subir la imagen!", Toast.LENGTH_SHORT)
+                            .show();
+                    return;
+                }
+                if (response.isSuccessful()) {
+
+                    Log.d("URL Picture", "http://imgur.com/" + response.body().data.id);
+                    mUrlImagen = "http://imgur.com/" + response.body().data.id+".jpg";
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<RespuestaImagen> call, Throwable t) {
+                Toast.makeText(AddAveriaActivity.this, "An unknown error has occured.", Toast.LENGTH_SHORT)
+                        .show();
+                t.printStackTrace();
+            }
+        });
+
+    }
+    /*
+    *
+    * Métodos para actualizar la ubicacion cada vez que se guarda
+    *
+    *
+    * */
     private Ubicacion obtenerLocalizacion() {
 
         Ubicacion ubicacion = new Ubicacion();
@@ -359,7 +445,7 @@ public class AddAveriaActivity extends AppCompatActivity implements View.OnClick
         //Pedimos permiso para el de tipo ACCESS_FINE_LOCATION
         ActivityCompat.requestPermissions(this,
                 new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                PERM_CODE);
+                Variables.PERM_CODE);
     }
 
     @Override

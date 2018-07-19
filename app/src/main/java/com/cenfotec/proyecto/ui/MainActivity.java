@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.widget.Toast;
 
 import com.cenfotec.proyecto.R;
+import com.cenfotec.proyecto.entities.Ubicacion;
 import com.cenfotec.proyecto.logic.Variables;
 import com.cenfotec.proyecto.ui.fragments.AveriasFragment;
 import com.cenfotec.proyecto.ui.fragments.MapaFragment;
@@ -57,12 +58,14 @@ public class MainActivity extends AppCompatActivity implements  AveriasFragment.
     public void accionBotonAgregar() {
         Utils utils = new Utils();
         String id = utils.getRandomString(5);
+        Ubicacion ubicacion = new Ubicacion();
         //Debe hacer el intent del activity de crear averia
         Intent intent = new Intent(this, AddAveriaActivity.class);
         //pasamos este putExtra para saber si es una averia creada desde la lista
         //indicamos un 0 desde la lista y un 1 desde el mapa
-        intent.putExtra("NuevaAveria", 1);
+        intent.putExtra("NuevaAveria", 0);
         intent.putExtra("Id", id);
+        intent.putExtra("Ubicacion", ubicacion);//se envia la ubicacion en null
         startActivity(intent);
     }
 

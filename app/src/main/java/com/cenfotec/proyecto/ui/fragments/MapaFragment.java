@@ -131,13 +131,17 @@ public class MapaFragment extends Fragment implements OnMapReadyCallback, Google
                             String id = utils.getRandomString(5);
                             Marker marcador = googleMap.addMarker(new MarkerOptions()
                                     .position(mTempPosicion)
-                                    .title(id));
+                                    .title("Averia-"+id));
 
-                            //marcador.showInfoWindow();
+                            Ubicacion ubicacion = new Ubicacion();
+                            ubicacion.lat = mTempPosicion.latitude;
+                            ubicacion.lon = mTempPosicion.longitude;
+
                             Intent intent = new Intent(getContext(), AddAveriaActivity.class);
                             //averia agregada desde el mapa
                             intent.putExtra("NuevaAveria", 1);
                             intent.putExtra("Id", id);
+                            intent.putExtra("Ubicacion", ubicacion);
                             startActivity(intent);
 
 

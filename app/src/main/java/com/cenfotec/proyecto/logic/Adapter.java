@@ -20,7 +20,10 @@ import com.cenfotec.proyecto.entities.Usuario;
 import com.cenfotec.proyecto.service.GestorServicio;
 import com.cenfotec.proyecto.service.ServicioAveria;
 import com.cenfotec.proyecto.ui.DetailsAveriaActivity;
+import com.cenfotec.proyecto.utils.Utils;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import butterknife.BindView;
@@ -38,10 +41,16 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder>  {
     // data is passed into the constructor
     public Adapter(Context context, List<Averia> data) {
         this.mInflater = LayoutInflater.from(context);
+        Collections.sort(data, new ComparadorAverias());
         this.averias = data;
         this.context=context;
     }
 
+    class ComparadorAverias implements Comparator<Averia> {
+        public int compare(Averia a, Averia b) {
+            return a.id.compareTo(b.id);
+        }
+    }
     // inflates the row layout from xml when needed
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -90,9 +99,6 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder>  {
 
         @BindView(R.id.descripcion_averia_it)
         TextView tvDescripcion;
-
-//       @BindView(R.id.lista_averias)
-//        RecyclerView listaRecyclerView;
 
         public String  id = "";
 

@@ -1,6 +1,7 @@
 package com.cenfotec.proyecto.ui;
 
 import android.Manifest;
+import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -18,7 +19,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,9 +31,11 @@ import com.cenfotec.proyecto.entities.Averia;
 import com.cenfotec.proyecto.entities.Ubicacion;
 import com.cenfotec.proyecto.entities.Usuario;
 import com.cenfotec.proyecto.helpers.PreferencesManager;
+import com.cenfotec.proyecto.logic.RespuestaImagen;
 import com.cenfotec.proyecto.logic.Variables;
 import com.cenfotec.proyecto.service.GestorServicio;
 import com.cenfotec.proyecto.service.ServicioAveria;
+import com.cenfotec.proyecto.service.ServicioImgur;
 import com.cenfotec.proyecto.ui.fragments.AveriasFragment;
 import com.squareup.picasso.Picasso;
 
@@ -40,6 +45,9 @@ import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -49,7 +57,7 @@ public class UpdateAveriaActivity extends AppCompatActivity implements View.OnCl
 
 
     @BindView(R.id.id_averia_up)
-    TextView id;
+    EditText id;
 
     @BindView(R.id.nombre_averia_up)
     EditText nombre;
@@ -58,7 +66,7 @@ public class UpdateAveriaActivity extends AppCompatActivity implements View.OnCl
     EditText tipo;
 
     @BindView(R.id.usuario_averia_up)
-    TextView usuario;
+    EditText usuario;
 
     @BindView(R.id.fecha_averia_up)
     EditText fecha;
@@ -78,13 +86,19 @@ public class UpdateAveriaActivity extends AppCompatActivity implements View.OnCl
     @BindView(R.id.btn_eliminar_averia_up)
     Button botonEliminar;
 
+    @BindView(R.id.ib_obtener_fecha_up)
+    ImageButton botonFecha;
+
     Averia averia;
     Usuario usuarioAveria;
     Ubicacion ubicacion;
 
+    private String mUrlImagen="";
     private Uri mUri;
+    private File mFile;
     private static final int PERM_CODE = 1000;
     private static final int REQUEST_TAKE_PHOTO = 101;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,6 +132,7 @@ public class UpdateAveriaActivity extends AppCompatActivity implements View.OnCl
         botonEditar.setOnClickListener(this);
         botonAgregarFoto.setOnClickListener(this);
         botonEliminar.setOnClickListener(this);
+        botonFecha.setOnClickListener(this);
     }
 
     private void actualizarAveria(){
@@ -126,7 +141,8 @@ public class UpdateAveriaActivity extends AppCompatActivity implements View.OnCl
         averia.usuario = usuarioAveria;
 
         //los demas datos de la averia tomarlos del layout
-        //averia.imagen =
+        if(mUrlImagen != "")//si la foto se actualizó
+            averia.imagen = mUrlImagen;
         averia.descripcion = descripcion.getText().toString();
         averia.fecha = fecha.getText().toString();
         averia.tipo = tipo.getText().toString();
@@ -139,6 +155,8 @@ public class UpdateAveriaActivity extends AppCompatActivity implements View.OnCl
         if(view.equals(botonAgregarFoto)){
             verificarPermisos();
         }
+        if(view.equals(botonFecha))
+            obtenerFecha();
         if(view.equals(botonEditar)){
 
             //Se obtiene la referencia singleton desde el gestor.
@@ -159,8 +177,9 @@ public class UpdateAveriaActivity extends AppCompatActivity implements View.OnCl
                                 "Exito editando la averia",
                                 Toast.LENGTH_SHORT).show();
 
-//                        Intent intent = new Intent(getApplicationContext(), DetailsAveriaActivity.class);
-//                        startActivity(intent);
+                        Intent intent = new Intent(UpdateAveriaActivity.this, MainActivity.class);
+                        startActivity(intent);
+                        finish();
                     }
                 }
                 @Override
@@ -200,8 +219,10 @@ public class UpdateAveriaActivity extends AppCompatActivity implements View.OnCl
                                                     "Exito eliminando la averia",
                                                     Toast.LENGTH_SHORT).show();
 
-                                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                                            Intent intent = new Intent(UpdateAveriaActivity.this, MainActivity.class);
                                             startActivity(intent);
+                                            finish();
+
                                         }
                                     }
                                     @Override
@@ -266,7 +287,7 @@ public class UpdateAveriaActivity extends AppCompatActivity implements View.OnCl
     private void continuarTomarFoto() {
         //Llamamos al metodo crearArchivo para obtener un
         //archivo en el cual guardar la foto
-        File archivo = crearArchivo();
+        mFile = crearArchivo();
 
         //Construimos un intent con una peticion de captura
         //de imagenes
@@ -276,7 +297,7 @@ public class UpdateAveriaActivity extends AppCompatActivity implements View.OnCl
         //Guardamos en el directorio usando el FileProvider:
         mUri = FileProvider.getUriForFile(this,
                 "com.cenfotec.fotos",
-                archivo);
+                mFile);
 
         //Especificamos el URI en el que queremos que se guarde
         //la imagen
@@ -304,6 +325,7 @@ public class UpdateAveriaActivity extends AppCompatActivity implements View.OnCl
                     storageDir /* directory */
             );
             //...y lo retornamos
+
             return image;
         }catch(Exception e){
             Log.d("Error", e.getMessage());
@@ -330,14 +352,74 @@ public class UpdateAveriaActivity extends AppCompatActivity implements View.OnCl
                 //Mostramos el bitmap en el ImageView declarado
                 //en nuestro layout file
                 imageView.setImageBitmap(imageBitmap);
+                subirImagen();
             }catch(Exception e){
                 Log.d("Error", e.getMessage());
             }
         }
 
-        ///subida de la imagen
+    }
 
+    private void subirImagen(){
 
+        ServicioImgur imgurService = ServicioImgur.retrofit.create(ServicioImgur.class);
+        final Call<RespuestaImagen> call =
+                imgurService.postImage(
+                        "Nombre",
+                        "Descripcion", "", "",
+                        MultipartBody.Part.createFormData(
+                                "image",
+                                mFile.getName(),
+                                RequestBody.create(MediaType.parse("image/*"), mFile)
+                        ));
+
+        call.enqueue(new Callback<RespuestaImagen>() {
+            @Override
+            public void onResponse(Call<RespuestaImagen> call, Response<RespuestaImagen> response) {
+                if (response == null) {
+                    Toast.makeText(UpdateAveriaActivity.this, "No se ha podido subir la imagen!", Toast.LENGTH_SHORT)
+                            .show();
+                    return;
+                }
+                if (response.isSuccessful()) {
+
+                    Log.d("URL Picture", "http://imgur.com/" + response.body().data.id);
+                    mUrlImagen = "http://imgur.com/" + response.body().data.id+".jpg";
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<RespuestaImagen> call, Throwable t) {
+                Toast.makeText(UpdateAveriaActivity.this, "An unknown error has occured.", Toast.LENGTH_SHORT)
+                        .show();
+               t.printStackTrace();
+            }
+        });
 
     }
+
+    private void obtenerFecha(){
+
+        DatePickerDialog recogerFecha = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                //Esta variable lo que realiza es aumentar en uno el mes ya que comienza desde 0 = enero
+                final int mesActual = month + 1;
+                //Formateo el día obtenido: antepone el 0 si son menores de 10
+                String diaFormateado = (dayOfMonth < 10)? Variables.CERO + String.valueOf(dayOfMonth):String.valueOf(dayOfMonth);
+                //Formateo el mes obtenido: antepone el 0 si son menores de 10
+                String mesFormateado = (mesActual < 10)? Variables.CERO + String.valueOf(mesActual):String.valueOf(mesActual);
+                //Muestro la fecha con el formato deseado
+                fecha.setText(diaFormateado + Variables.BARRA + mesFormateado + Variables.BARRA + year);
+
+            }
+
+        },Variables.ANIO, Variables.MES, Variables.DIA);
+        //Muestro el widget
+        recogerFecha.show();
+
+    }
+
+
 }

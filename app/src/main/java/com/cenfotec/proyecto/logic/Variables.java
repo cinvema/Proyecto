@@ -1,5 +1,7 @@
 package com.cenfotec.proyecto.logic;
 
+import java.util.Calendar;
+
 public class Variables {
 
     public static boolean usuarioLogueado = false;
@@ -14,5 +16,19 @@ public class Variables {
 
     public static final String CARACTERES_PERMITIDOS ="0123456789qwertyuiopasdfghjklzxcvbnm";
 
+    ////fecha
 
+    public static final String CERO = "0";
+    public static final String BARRA = "/";
+
+    //Calendario para obtener fecha & hora
+    public static final Calendar C = Calendar.getInstance();
+
+    //Variables para obtener la fecha
+    public static final int MES = C.get(Calendar.MONTH);
+    public static final int DIA = C.get(Calendar.DAY_OF_MONTH);
+    public static final int ANIO = C.get(Calendar.YEAR);
+
+    public static final int PERM_CODE = 1000;
+    public static final int REQUEST_TAKE_PHOTO = 101;
 }

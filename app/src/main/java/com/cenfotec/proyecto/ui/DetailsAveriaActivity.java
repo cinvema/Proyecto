@@ -78,7 +78,7 @@ public class DetailsAveriaActivity extends AppCompatActivity implements View.OnC
             descripcion.setText(averia.descripcion.toString());
         if(ubicacionAveria!= null){
             ubicacionD.setText("Lat: "+ ubicacionAveria.lat
-                    + "Lon: "+ ubicacionAveria.lon);
+                    + " / Lon: "+ ubicacionAveria.lon);
         }
         if(!averia.imagen.equals(""))
             Picasso.get().load(averia.imagen.toString().trim()).into(imageView);

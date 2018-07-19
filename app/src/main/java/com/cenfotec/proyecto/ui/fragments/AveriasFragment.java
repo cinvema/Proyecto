@@ -129,6 +129,12 @@ public class AveriasFragment extends Fragment implements  View.OnClickListener {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+       // mAdapter.notifyDataSetChanged();
+    }
+
+    @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         //Se asigna a la instancia de la interfaz el contexto recibido en este
