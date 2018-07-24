@@ -108,12 +108,12 @@ public class MainActivity extends AppCompatActivity implements  AveriasFragment.
     @Override
     protected void onResume() {
         super.onResume();
-//        if(!Variables.usuarioLogueado){
-//            //verificar variable
-//            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-//            startActivity(intent);
-//
-//        }
+        if(!Variables.usuarioLogueado){
+            //verificar variable
+            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+            startActivity(intent);
+
+        }
 
     }
 }

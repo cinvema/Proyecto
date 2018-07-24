@@ -10,16 +10,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/imageView"
-        android:src="@drawable/averias"
+        android:src="@drawable/icono2"
         android:foregroundGravity="center_vertical"/>
     <TextView
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="60dp"
         android:layout_width="wrap_content"
         android:layout_height="50dp"
         android:text="Reporte de Averias"
         android:textStyle="bold|italic"
         android:textSize="20sp"
-        android:gravity="center_vertical"
-        android:layout_marginLeft="100dp"/>
+        android:gravity="center"
+        android:layout_marginLeft="100dp"
+        android:textColor="@color/colorPrimaryDark"/>
 
 </LinearLayout>

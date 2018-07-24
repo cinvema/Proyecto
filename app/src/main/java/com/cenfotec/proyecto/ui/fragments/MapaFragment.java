@@ -258,7 +258,7 @@ public class MapaFragment extends Fragment implements OnMapReadyCallback, Google
                                     .position(posicion)
                                     .title(averias.get(i).id.toString())
                                     .snippet(averias.get(i).tipo.toString())
-                                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE)));
+                                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
 
                         }//fin del if
 

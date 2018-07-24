@@ -398,7 +398,8 @@ public class UpdateAveriaActivity extends AppCompatActivity implements View.OnCl
 
                     Log.d("URL Picture", "http://imgur.com/" + response.body().data.id);
                     mUrlImagen = "http://imgur.com/" + response.body().data.id+".jpg";
-
+                    Toast.makeText(UpdateAveriaActivity.this, "Se subió la imagen.", Toast.LENGTH_SHORT)
+                            .show();
                 }
             }
 

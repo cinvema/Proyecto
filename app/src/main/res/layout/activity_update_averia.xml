@@ -1,337 +1,361 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:fab="http://schemas.android.com/apk/res-auto"
+    xmlns:fab="http://schemas.android.com/tools"
     android:orientation="vertical"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center">
 
-    <LinearLayout
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="7dp">
-
-        <TextView
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="Editar Averia"
-            android:gravity="center_horizontal"
-            android:layout_gravity="center_vertical"
-            android:textSize="22sp"
-            android:textColor="@color/colorAccent"
-            android:textStyle="bold"
-            />
-    </LinearLayout>
-    <LinearLayout
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="7dp">
+            android:orientation="vertical">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="13dp"
-            android:layout_weight="1"
-            android:text="Fotografía:  "
-            android:textSize="15sp"
-            android:tooltipText="Fotografía de averia"
-            android:textStyle="bold"/>
+            <LinearLayout
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10dp">
 
-        <LinearLayout
-            android:layout_width="250dp"
-            android:layout_height="100dp"
-            android:layout_gravity="left">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="Editar Averia"
+                    android:gravity="center_horizontal"
+                    android:layout_gravity="center_vertical"
+                    android:textSize="22sp"
+                    android:textColor="@color/colorAccent"
+                    android:textStyle="bold"
+                    />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
 
-            <ImageView
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:id="@+id/imagen_averia_up"
-                />
+                android:layout_marginTop="10dp">
 
-            <ImageButton
-                android:id="@+id/btn_agregar_foto_up"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:src="@android:drawable/ic_menu_camera"
-                />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="13dp"
+                    android:layout_weight="1"
+                    android:text="Fotografía:  "
+                    android:textSize="15sp"
+                    android:tooltipText="Fotografía de averia"
+                    android:textStyle="bold"/>
 
-        </LinearLayout>
+                <LinearLayout
+                    android:layout_width="250dp"
+                    android:layout_height="100dp"
+                    android:layout_gravity="left">
 
-    </LinearLayout>
-    <LinearLayout
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="7dp">
+                    <ImageView
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:id="@+id/imagen_averia_up"
+                        />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Id:"
-            android:textSize="15sp"
-            android:layout_marginTop="10dp"
-            android:tooltipText="Nombre de averia"
-            android:textStyle="bold"/>
-        <LinearLayout
-            android:layout_width="250dp"
-            android:layout_height="wrap_content">
+                    <ImageButton
+                        android:id="@+id/btn_agregar_foto_up"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:src="@android:drawable/ic_menu_camera"
+                        />
 
-            <EditText
-                android:id="@+id/id_averia_up"
+                </LinearLayout>
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Id:"
+                    android:textSize="15sp"
+                    android:layout_marginTop="10dp"
+                    android:tooltipText="Nombre de averia"
+                    android:textStyle="bold"/>
+                <LinearLayout
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/id_averia_up"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="13dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/corner_rounded"
+                        android:ems="10"
+                        android:gravity="left"
+                        android:enabled="false"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Nombre:"
+                    android:textSize="15sp"
+                    android:layout_marginTop="13dp"
+                    android:tooltipText="Nombre de averia"
+                    android:textStyle="bold"/>
+                <LinearLayout
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/nombre_averia_up"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="13dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/corner_rounded"
+                        android:ems="10"
+                        android:gravity="left"
+                        android:inputType="text" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Tipo:"
+                    android:textSize="15sp"
+                    android:layout_marginTop="13dp"
+                    android:tooltipText="Tipo de averia"
+                    android:textStyle="bold"/>
+                <LinearLayout
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/tipo_averia_up"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="13dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/corner_rounded"
+                        android:ems="10"
+                        android:gravity="left"
+                        android:inputType="text" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Usuario :"
+                    android:textSize="15sp"
+                    android:layout_marginTop="13dp"
+                    android:tooltipText="Usuario"
+                    android:textStyle="bold"/>
+                <LinearLayout
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/usuario_averia_up"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="13dp"
+                        android:layout_weight="1"
+                        android:ems="10"
+                        android:gravity="left"
+                        android:background="@drawable/corner_rounded"
+                        android:enabled="false"
+                        />
+
+                </LinearLayout>
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Fecha: "
+                    android:textSize="15sp"
+                    android:layout_marginTop="13dp"
+                    android:tooltipText="Fecha de averia"
+                    android:textStyle="bold"/>
+                <LinearLayout
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/fecha_averia_up"
+                        android:layout_width="100dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="13dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/corner_rounded"
+                        android:ems="10"
+                        android:gravity="left"
+                        android:inputType="date" />
+
+                    <ImageButton
+                        android:id="@+id/ib_obtener_fecha_up"
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
+                        android:src="@android:drawable/ic_menu_my_calendar"
+                        android:layout_marginLeft="8dp"
+                        app:layout_constraintHorizontal_bias="0.505"
+                        android:layout_marginTop="13dp"
+                        />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="13dp"
+                    android:layout_weight="1"
+                    android:text="Descripción:  "
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    android:tooltipText="Descripción de averia" />
+
+                <LinearLayout
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/descripcion_averia_up"
+                        android:layout_width="match_parent"
+                        android:layout_height="52dp"
+                        android:layout_marginTop="13dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/corner_rounded"
+                        android:ems="10"
+                        android:gravity="left"
+                        android:inputType="text" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+            <RelativeLayout
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="13dp"
-                android:layout_weight="1"
-                android:background="@drawable/corner_rounded"
-                android:ems="10"
-                android:gravity="left"
-                android:enabled="false"/>
+                android:gravity="bottom|right"
+                android:paddingBottom="0dp"
+                android:paddingLeft="16dp"
+                android:paddingRight="5dp"
+                android:paddingTop="16dp"
+                android:paddingStart="16dp"
+                android:paddingEnd="5dp">
+
+                <com.github.clans.fab.FloatingActionMenu
+                    android:id="@+id/fab_menu"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/colorAccent"
+                    android:paddingBottom="16dp"
+                    android:paddingRight="16dp"
+                    app:fab_colorNormal="@color/colorAccent"
+                    fab:fab_colorPressed="@color/colorAccent"
+                    fab:fab_colorRipple="#99FFFFFF"
+                    fab:fab_shadowColor="#66000000"
+                    fab:fab_showShadow="true"
+                    fab:menu_backgroundColor="#ccffffff"
+                    fab:menu_fab_label="Choose an action"
+                    fab:menu_labels_colorNormal="#333333"
+                    fab:menu_labels_colorPressed="#444444"
+                    fab:menu_labels_colorRipple="#66FFFFFF"
+                    fab:menu_labels_ellipsize="end"
+                    fab:menu_labels_maxLines="-1"
+                    fab:menu_labels_position="left"
+                    fab:menu_labels_showShadow="true"
+                    fab:menu_labels_singleLine="true"
+                    fab:menu_openDirection="up">
+
+                    <com.github.clans.fab.FloatingActionButton
+                        android:id="@+id/btn_editar_averia_up"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@android:drawable/ic_menu_edit"
+                        fab:fab_label="Editar"
+                        fab:fab_size="mini" />
+
+                    <com.github.clans.fab.FloatingActionButton
+                        android:id="@+id/btn_eliminar_averia_up"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@android:drawable/ic_menu_delete"
+                        fab:fab_label="Eliminar"
+                        fab:fab_size="mini" />
+
+
+                </com.github.clans.fab.FloatingActionMenu>
+
+            </RelativeLayout>
 
         </LinearLayout>
-
-    </LinearLayout>
-    <LinearLayout
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="7dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Nombre:"
-            android:textSize="15sp"
-            android:layout_marginTop="13dp"
-            android:tooltipText="Nombre de averia"
-            android:textStyle="bold"/>
-        <LinearLayout
-            android:layout_width="250dp"
-            android:layout_height="wrap_content">
-
-            <EditText
-                android:id="@+id/nombre_averia_up"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="13dp"
-                android:layout_weight="1"
-                android:background="@drawable/corner_rounded"
-                android:ems="10"
-                android:gravity="left"
-                android:inputType="text" />
-
-        </LinearLayout>
-
-    </LinearLayout>
-    <LinearLayout
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="7dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Tipo:"
-            android:textSize="15sp"
-            android:layout_marginTop="13dp"
-            android:tooltipText="Tipo de averia"
-            android:textStyle="bold"/>
-        <LinearLayout
-            android:layout_width="250dp"
-            android:layout_height="wrap_content">
-
-            <EditText
-                android:id="@+id/tipo_averia_up"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="13dp"
-                android:layout_weight="1"
-                android:background="@drawable/corner_rounded"
-                android:ems="10"
-                android:gravity="left"
-                android:inputType="text" />
-
-        </LinearLayout>
-
-    </LinearLayout>
-    <LinearLayout
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="7dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Usuario :"
-            android:textSize="15sp"
-            android:layout_marginTop="13dp"
-            android:tooltipText="Usuario"
-            android:textStyle="bold"/>
-        <LinearLayout
-            android:layout_width="250dp"
-            android:layout_height="wrap_content">
-
-            <EditText
-                android:id="@+id/usuario_averia_up"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="13dp"
-                android:layout_weight="1"
-                android:ems="10"
-                android:gravity="left"
-                android:background="@drawable/corner_rounded"
-                android:enabled="false"
-                />
-
-        </LinearLayout>
-
-    </LinearLayout>
-    <LinearLayout
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="7dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Fecha: "
-            android:textSize="15sp"
-            android:layout_marginTop="13dp"
-            android:tooltipText="Fecha de averia"
-            android:textStyle="bold"/>
-        <LinearLayout
-            android:layout_width="250dp"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <EditText
-                android:id="@+id/fecha_averia_up"
-                android:layout_width="100dp"
-                android:layout_height="match_parent"
-                android:layout_marginTop="13dp"
-                android:layout_weight="1"
-                android:background="@drawable/corner_rounded"
-                android:ems="10"
-                android:gravity="left"
-                android:inputType="date" />
-
-            <ImageButton
-                android:id="@+id/ib_obtener_fecha_up"
-                android:layout_width="28dp"
-                android:layout_height="28dp"
-                android:src="@android:drawable/ic_menu_my_calendar"
-                android:layout_marginLeft="8dp"
-                app:layout_constraintHorizontal_bias="0.505"
-                android:layout_marginTop="13dp"
-                tools:ignore="ContentDescription" />
-
-        </LinearLayout>
-
-    </LinearLayout>
-    <LinearLayout
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="7dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Descripción:  "
-            android:textSize="15sp"
-            android:layout_marginTop="13dp"
-            android:tooltipText="Descripción de averia"
-            android:textStyle="bold"/>
-        <LinearLayout
-            android:layout_width="250dp"
-            android:layout_height="wrap_content">
-
-            <EditText
-                android:id="@+id/descripcion_averia_up"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="13dp"
-                android:layout_weight="1"
-                android:background="@drawable/corner_rounded"
-                android:ems="10"
-                android:gravity="left"
-                android:inputType="text" />
-
-        </LinearLayout>
-
-    </LinearLayout>
-
-
-    <com.github.clans.fab.FloatingActionMenu
-        android:id="@+id/fab_menu"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentBottom="false"
-        android:layout_alignParentRight="true"
-        android:paddingBottom="16dp"
-        android:paddingRight="16dp"
-        fab:menu_backgroundColor="#012b96a0"
-        fab:menu_fab_label="Elija una accion"
-        fab:fab_colorNormal="#2b96a0"
-        fab:fab_colorPressed="#2b96a0"
-        fab:fab_colorRipple="#99579294"
-        fab:fab_showShadow="true"
-        fab:menu_labels_colorNormal="#333333"
-        fab:menu_labels_colorPressed="#2b96a0"
-        fab:menu_labels_colorRipple="#2b96a0"
-        fab:menu_labels_showShadow="true"
-        fab:menu_labels_maxLines="-1"
-        fab:menu_labels_position="left"
-        fab:menu_openDirection="up"
-        fab:fab_shadowColor="#14000000"
-        fab:menu_labels_ellipsize="end"
-        fab:menu_labels_singleLine="true">
-
-        <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/btn_editar_averia_up"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@android:drawable/ic_menu_edit"
-            fab:fab_label="Editar"
-            fab:fab_size="mini" />
-
-        <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/btn_eliminar_averia_up"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@android:drawable/ic_menu_delete"
-            fab:fab_label="Eliminar"
-            fab:fab_size="mini" />
-
-
-    </com.github.clans.fab.FloatingActionMenu>
-
+    </ScrollView>
 </LinearLayout>
