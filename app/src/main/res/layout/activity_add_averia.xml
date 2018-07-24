@@ -35,7 +35,7 @@
             android:layout_marginTop="13dp"
             android:layout_weight="1"
             android:text="Fotografía:  "
-            android:textSize="15sp"
+            android:textSize="17sp"
             android:tooltipText="Fotografía de averia"
             android:textStyle="bold"/>
         <LinearLayout
@@ -49,13 +49,13 @@
                 android:layout_height="100dp"
                 android:id="@+id/imagen_averia_add"
                 />
-            <Button
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+
+            <ImageButton
                 android:id="@+id/btn_agregar_foto_add"
-                android:drawableLeft="@drawable/camera"
-                android:textColor="@android:color/holo_orange_light"
-                android:backgroundTint="#3ecf721b"/>
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@android:drawable/ic_menu_camera"
+                 />
 
         </LinearLayout>
 
@@ -71,7 +71,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Id:"
-            android:textSize="15sp"
+            android:textSize="17sp"
             android:layout_marginTop="13dp"
             android:tooltipText="Nombre de averia"
             android:textStyle="bold"/>
@@ -105,7 +105,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Nombre:"
-            android:textSize="15sp"
+            android:textSize="17sp"
             android:layout_marginTop="13dp"
             android:tooltipText="Nombre de averia"
             android:textStyle="bold"/>
@@ -138,7 +138,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Tipo:"
-            android:textSize="15sp"
+            android:textSize="17sp"
             android:layout_marginTop="13dp"
             android:tooltipText="Tipo de averia"
             android:textStyle="bold"/>
@@ -171,7 +171,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Fecha: "
-            android:textSize="15sp"
+            android:textSize="17sp"
             android:layout_marginTop="13dp"
             android:tooltipText="Fecha de averia"
             android:textStyle="bold"/>
@@ -193,13 +193,13 @@
 
             <ImageButton
                 android:id="@+id/ib_obtener_fecha"
-                android:layout_width="28dp"
-                android:layout_height="28dp"
-                android:src="@drawable/date"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@android:drawable/ic_menu_my_calendar"
                 android:layout_marginLeft="8dp"
-                app:layout_constraintHorizontal_bias="0.505"
                 android:layout_marginTop="13dp"
-                tools:ignore="ContentDescription" />
+                tools:ignore="ContentDescription"
+                />
 
         </LinearLayout>
 
@@ -215,7 +215,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Descripción:  "
-            android:textSize="15sp"
+            android:textSize="17sp"
             android:layout_marginTop="13dp"
             android:tooltipText="Descripción de averia"
             android:textStyle="bold"/>
@@ -232,29 +232,35 @@
                 android:background="@drawable/corner_rounded"
                 android:ems="10"
                 android:gravity="left"
-                android:inputType="text" />
+                android:inputType="textMultiLine"
+                android:lines="4"/>
 
         </LinearLayout>
 
     </LinearLayout>
 
-    <LinearLayout
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="15dp"
-        android:gravity="center">
+        android:layout_height="match_parent"
+        android:gravity="bottom|right"
+        android:paddingBottom="0dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="5dp"
+        android:paddingTop="16dp">
 
-        <Button
+
+        <android.support.design.widget.FloatingActionButton
             android:id="@+id/agregar_nueva_averia_add"
-            android:layout_width="120dp"
+            android:layout_width="53dp"
             android:layout_height="50dp"
-            android:backgroundTint="#5f6a88"
-            android:drawableLeft="@drawable/plus"
-            android:gravity="center"
-            android:text="Agregar"
-            android:textColor="@android:color/holo_orange_light" />
+            android:layout_gravity="right"
+            android:layout_marginBottom="16dp"
+            android:layout_marginEnd="0dp"
+            android:layout_marginRight="0dp"
+            android:src="@drawable/create"
+            app:fabSize="normal"/>
 
-    </LinearLayout>
+    </RelativeLayout>
 
 </LinearLayout>

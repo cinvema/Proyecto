@@ -10,7 +10,9 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Environment;
+import android.provider.ContactsContract;
 import android.provider.MediaStore;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
@@ -71,10 +73,10 @@ public class AddAveriaActivity extends AppCompatActivity implements View.OnClick
     ImageView imageView;
 
     @BindView(R.id.agregar_nueva_averia_add)
-    Button botonAgregar;
+    FloatingActionButton botonAgregar;
 
     @BindView(R.id.btn_agregar_foto_add)
-    Button botonAgregarFoto;
+    ImageButton botonAgregarFoto;
 
     @BindView(R.id.ib_obtener_fecha)
     ImageButton botonFecha;

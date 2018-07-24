@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.os.Environment;
 import android.os.Parcelable;
 import android.provider.MediaStore;
+
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
@@ -37,6 +38,8 @@ import com.cenfotec.proyecto.service.GestorServicio;
 import com.cenfotec.proyecto.service.ServicioAveria;
 import com.cenfotec.proyecto.service.ServicioImgur;
 import com.cenfotec.proyecto.ui.fragments.AveriasFragment;
+import com.github.clans.fab.FloatingActionButton;
+import com.github.clans.fab.FloatingActionMenu;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
@@ -78,13 +81,16 @@ public class UpdateAveriaActivity extends AppCompatActivity implements View.OnCl
     ImageView imageView;
 
     @BindView(R.id.btn_agregar_foto_up)
-    Button botonAgregarFoto;
+    ImageButton botonAgregarFoto;
 
     @BindView(R.id.btn_editar_averia_up)
-    Button botonEditar;
+    FloatingActionButton botonEditar;
 
     @BindView(R.id.btn_eliminar_averia_up)
-    Button botonEliminar;
+    FloatingActionButton botonEliminar;
+
+    @BindView(R.id.fab_menu)
+    FloatingActionMenu fam;
 
     @BindView(R.id.ib_obtener_fecha_up)
     ImageButton botonFecha;
@@ -96,8 +102,6 @@ public class UpdateAveriaActivity extends AppCompatActivity implements View.OnCl
     private String mUrlImagen="";
     private Uri mUri;
     private File mFile;
-    private static final int PERM_CODE = 1000;
-    private static final int REQUEST_TAKE_PHOTO = 101;
 
 
     @Override
@@ -133,6 +137,15 @@ public class UpdateAveriaActivity extends AppCompatActivity implements View.OnCl
         botonAgregarFoto.setOnClickListener(this);
         botonEliminar.setOnClickListener(this);
         botonFecha.setOnClickListener(this);
+
+        fam.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (fam.isOpened()) {
+                    fam.close(true);
+                }
+            }
+        });
     }
 
     private void actualizarAveria(){
@@ -271,7 +284,7 @@ public class UpdateAveriaActivity extends AppCompatActivity implements View.OnCl
         //Hacemos la solicitud de permiso
         ActivityCompat.requestPermissions(this,
                 new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                PERM_CODE);
+                Variables.PERM_CODE);
 
         //Obtenemos el estado actual de los permisos
         int permissionCheck = ContextCompat.checkSelfPermission(this,
@@ -304,7 +317,7 @@ public class UpdateAveriaActivity extends AppCompatActivity implements View.OnCl
         takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, mUri);
         //Ejecutamos el intent, cediendo control a la aplicacion
         //de toma de fotos que el usuario seleccione
-        startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
+        startActivityForResult(takePictureIntent, Variables.REQUEST_TAKE_PHOTO);
     }
 
     private File crearArchivo() {
@@ -340,7 +353,7 @@ public class UpdateAveriaActivity extends AppCompatActivity implements View.OnCl
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-         if (requestCode == REQUEST_TAKE_PHOTO &&
+         if (requestCode == Variables.REQUEST_TAKE_PHOTO &&
                 resultCode == RESULT_OK) {
             try {
                 //Obtenemos el BitMap a partir del URI que habiamos

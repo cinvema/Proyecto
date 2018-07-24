@@ -1,7 +1,9 @@
 <resources>
-    <string name="app_name">Reporte de Averias</string>
-    <string name="agregar_nueva_averia">Agregar Averia</string>
-    <string name="lista_titulo_averias">Lista de Averias</string>
+    <string name="app_name">Averías CR</string>
+    <string name="agregar_nueva_averia">Agregar Avería</string>
+    <string name="lista_titulo_averias">Averías Registradas</string>
+    <string name="editar_averia">Editar Avería</string>
+    <string name="eliminar_averia">Eliminar Avería</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Mapa</string>

@@ -1,38 +1,25 @@
 package com.cenfotec.proyecto.ui.fragments;
 
 import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Parcelable;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.GridView;
-import android.widget.TextView;
 import android.widget.Toast;
-
 import com.cenfotec.proyecto.R;
 import com.cenfotec.proyecto.entities.Averia;
-import com.cenfotec.proyecto.entities.Ubicacion;
-import com.cenfotec.proyecto.entities.Usuario;
 import com.cenfotec.proyecto.logic.Adapter;
 import com.cenfotec.proyecto.service.GestorServicio;
 import com.cenfotec.proyecto.service.ServicioAveria;
-import com.cenfotec.proyecto.ui.DetailsAveriaActivity;
-import com.cenfotec.proyecto.ui.MainActivity;
-
 import java.util.List;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnItemClick;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -40,12 +27,15 @@ import retrofit2.Response;
 
 public class AveriasFragment extends Fragment implements  View.OnClickListener {
 
+//
+//    @BindView(R.id.btn_agregar_averias)
+//    Button botonAgregarAveria;
 
-    @BindView(R.id.btn_agregar_averias)
-    Button botonAgregarAveria;
 
+    @BindView(R.id.fab)
+    FloatingActionButton botonAgregarAveria;
 
-    List<Averia> averias;
+   List<Averia> averias;
 
     private RecyclerView mRecyclerView;
     RecyclerView.Adapter mAdapter;
@@ -104,9 +94,9 @@ public class AveriasFragment extends Fragment implements  View.OnClickListener {
             @Override
             public void onFailure(Call<List<Averia>> call, Throwable t) {
                 //Si no, se muestra un error
-                Toast.makeText(getContext(),
-                        "Error al interactuar con el servicio",
-                        Toast.LENGTH_SHORT).show();
+                Snackbar.make(getView(), "Error al interactuar con el servicio\"", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+
             }
         });
 

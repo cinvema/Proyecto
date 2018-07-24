@@ -2,6 +2,7 @@ package com.cenfotec.proyecto.ui;
 
 import android.content.Intent;
 import android.os.Parcelable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -45,7 +46,7 @@ public class DetailsAveriaActivity extends AppCompatActivity implements View.OnC
     ImageView imageView;
 
     @BindView(R.id.btn_editar_averia_det)
-    Button botonEditar;
+    FloatingActionButton botonEditar;
 
     Averia averia;
     Usuario usuarioAveria;

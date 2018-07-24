@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -201,9 +202,8 @@ public class MapaFragment extends Fragment implements OnMapReadyCallback, Google
             @Override
             public void onFailure(Call<Averia> call, Throwable t) {
                 //Si no, se muestra un error
-                Toast.makeText(getContext(),
-                        "Error al interactuar con el servicio",
-                        Toast.LENGTH_SHORT).show();
+                Snackbar.make(getView(), "Error al interactuar con el servicio\"", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
             }
         });
 
@@ -269,9 +269,8 @@ public class MapaFragment extends Fragment implements OnMapReadyCallback, Google
             @Override
             public void onFailure(Call<List<Averia>> call, Throwable t) {
                 //Si no, se muestra un error
-                Toast.makeText(getContext(),
-                        "Error al interactuar con el servicio",
-                        Toast.LENGTH_SHORT).show();
+                Snackbar.make(getView(), "Error al interactuar con el servicio\"", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
             }
         });
 

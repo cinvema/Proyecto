@@ -14,30 +14,26 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <LinearLayout
-        android:id="@+id/contenedor"
-        android:layout_width="match_parent"
-        android:layout_alignParentBottom="true"
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal">
-        <Button
-            android:id="@+id/btn_agregar_averias"
-            android:text="@string/agregar_nueva_averia"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/plus"
-            android:textColor="@android:color/holo_orange_light"
-            android:backgroundTint="#5f6a88"
-            android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true"/>
-    </LinearLayout>
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_gravity="bottom|end"
+        android:layout_marginBottom="22dp"
+        android:layout_marginEnd="26dp"
+        android:layout_marginRight="26dp"
+        android:src="@drawable/plus"
+        app:fabSize="normal"/>
 
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/lista_averias"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/titulo"
-        android:layout_above="@id/contenedor"/>
+        android:layout_below="@id/titulo" />
 
 </RelativeLayout>
