@@ -1,21 +1,17 @@
 package com.cenfotec.proyecto.ui;
 
 import android.content.Intent;
-import android.os.Parcelable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.cenfotec.proyecto.R;
 import com.cenfotec.proyecto.entities.Averia;
 import com.cenfotec.proyecto.entities.Ubicacion;
 import com.cenfotec.proyecto.entities.Usuario;
 import com.squareup.picasso.Picasso;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -83,7 +79,6 @@ public class DetailsAveriaActivity extends AppCompatActivity implements View.OnC
         }
         if(!averia.imagen.equals(""))
             Picasso.get().load(averia.imagen.toString().trim()).into(imageView);
-
 
         botonEditar.setOnClickListener(this);
     }

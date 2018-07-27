@@ -2,6 +2,7 @@ package com.cenfotec.proyecto.ui.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -10,14 +11,18 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.Toast;
 import com.cenfotec.proyecto.R;
 import com.cenfotec.proyecto.entities.Averia;
 import com.cenfotec.proyecto.logic.Adapter;
 import com.cenfotec.proyecto.service.GestorServicio;
 import com.cenfotec.proyecto.service.ServicioAveria;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import retrofit2.Call;
@@ -27,16 +32,10 @@ import retrofit2.Response;
 
 public class AveriasFragment extends Fragment implements  View.OnClickListener {
 
-//
-//    @BindView(R.id.btn_agregar_averias)
-//    Button botonAgregarAveria;
-
-
     @BindView(R.id.fab)
     FloatingActionButton botonAgregarAveria;
 
-   List<Averia> averias;
-
+    List<Averia> averias;
     private RecyclerView mRecyclerView;
     RecyclerView.Adapter mAdapter;
     RecyclerView.LayoutManager mLayoutManager;
@@ -74,7 +73,9 @@ public class AveriasFragment extends Fragment implements  View.OnClickListener {
         mRecyclerView.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
         mLayoutManager = new LinearLayoutManager(getContext()); //crear manager
         mRecyclerView.setLayoutManager(mLayoutManager);
-
+        averias = new ArrayList<Averia>(0) ;
+        mAdapter = new Adapter(getContext(), averias);
+        mRecyclerView.setAdapter(mAdapter);
         //pasar la lista de averias llena
 
         //Se obtiene la referencia singleton desde el gestor.
@@ -88,6 +89,7 @@ public class AveriasFragment extends Fragment implements  View.OnClickListener {
                 averias = response.body();
                 mAdapter = new Adapter(getContext(), averias);
                 mRecyclerView.setAdapter(mAdapter);
+                mAdapter.notifyDataSetChanged();
 
             }
 

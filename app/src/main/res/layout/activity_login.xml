@@ -9,105 +9,112 @@
     tools:context="com.cenfotec.proyecto.ui.LoginActivity"
     android:id="@+id/transitions_container">
 
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="120dp"
-        android:gravity="center"
-        android:id="@+id/rl_usuario">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="120dp"
+                android:gravity="center"
+                android:id="@+id/rl_usuario">
 
-        <TextView
-            android:id="@+id/usuario"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:text="Usuario:"
-            android:textSize="20sp"
-            android:layout_marginRight="51dp"
-            android:gravity="left"
-            android:textColor="#FF424A60"/>
+                <TextView
+                    android:id="@+id/usuario"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="Usuario:"
+                    android:textSize="20sp"
+                    android:layout_marginRight="51dp"
+                    android:gravity="left"
+                    android:textColor="#FF424A60"/>
 
-        <EditText
-            android:id="@+id/user_input"
-            android:layout_width="180dp"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/usuario"
-            android:textSize="25sp"
-            android:background="@drawable/corner_rounded"
-           />
-    </LinearLayout>
+                <EditText
+                    android:id="@+id/user_input"
+                    android:layout_width="180dp"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/usuario"
+                    android:textSize="25sp"
+                    android:background="@drawable/corner_rounded"
+                   />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_marginTop="20dp">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:layout_marginTop="20dp">
+                <TextView
+                    android:id="@+id/password"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="Contraseña:"
+                    android:textSize="20sp"
+                    android:layout_marginRight="20dp"
+                    android:textColor="#FF424A60"/>
 
-        <TextView
-            android:id="@+id/password"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:text="Contraseña:"
-            android:textSize="20sp"
-            android:layout_marginRight="20dp"
-            android:textColor="#FF424A60"/>
-
-        <EditText
-            android:id="@+id/password_input"
-            android:layout_width="180dp"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/password"
-            android:inputType="textPassword"
-            android:textSize="25sp"
-            android:background="@drawable/corner_rounded"/>
-
-
-    </LinearLayout>
+                <EditText
+                    android:id="@+id/password_input"
+                    android:layout_width="180dp"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/password"
+                    android:inputType="textPassword"
+                    android:textSize="25sp"
+                    android:background="@drawable/corner_rounded"/>
 
 
-    <CheckBox
-        android:id="@+id/remember"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Recordar Contraseña"
-        android:textSize="16sp"
-        android:layout_marginTop="30dp"
-        />
+            </LinearLayout>
+            <CheckBox
+                android:id="@+id/remember"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Recordar Contraseña"
+                android:textSize="16sp"
+                android:layout_marginTop="30dp"
+                android:layout_gravity="center"
+                />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="80dp"
+                android:gravity="center">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="80dp"
-        android:gravity="center">
+                <Button
+                    android:id="@+id/login"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/corner_rounded_button"
+                    android:text="Ingresar  "
+                    android:layout_marginRight="10dp"
+                    android:textSize="17sp"
+                    android:drawableLeft="@drawable/account"
+                    android:textColor="#f9f6f6"
+                    android:backgroundTint="#7b7c80"
+                    android:layout_centerVertical="true"
+                    android:layout_centerHorizontal="true"/>
+                <Button
+                    android:id="@+id/register"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/corner_rounded_button"
+                    android:text="Registrar  "
+                    android:layout_marginLeft="10dp"
+                    android:textSize="17sp"
+                    android:drawableLeft="@drawable/account_plus"
+                    android:textColor="#f9f6f6"
+                    android:backgroundTint="#7b7c80"
+                    android:layout_centerVertical="true"
+                    android:layout_centerHorizontal="true"/>
 
-        <Button
-            android:id="@+id/login"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/corner_rounded_button"
-            android:text="Ingresar  "
-            android:layout_marginRight="10dp"
-            android:textSize="17sp"
-            android:drawableLeft="@drawable/account"
-            android:textColor="#f9f6f6"
-            android:backgroundTint="#7b7c80"
-            android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true"/>
-        <Button
-            android:id="@+id/register"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/corner_rounded_button"
-            android:text="Registrar  "
-            android:layout_marginLeft="10dp"
-            android:textSize="17sp"
-            android:drawableLeft="@drawable/account_plus"
-            android:textColor="#f9f6f6"
-            android:backgroundTint="#7b7c80"
-            android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true"/>
+            </LinearLayout>
 
-    </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>

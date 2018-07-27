@@ -18,7 +18,7 @@
         android:layout_height="50dp"
         android:text="Reporte de Averias"
         android:textStyle="bold|italic"
-        android:textSize="20sp"
+        android:textSize="25sp"
         android:gravity="center"
         android:layout_marginLeft="100dp"
         android:textColor="@color/colorPrimaryDark"/>

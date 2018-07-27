@@ -4,6 +4,9 @@ import java.util.Calendar;
 
 public class Variables {
 
+    // Duración en milisegundos que se mostrará el splash
+    public static final int DURACION_SPLASH = 1000; // 3 segundos 3000
+
     public static boolean usuarioLogueado = false;
 
     public static String nombre;

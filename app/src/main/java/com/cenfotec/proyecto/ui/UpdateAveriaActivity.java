@@ -8,9 +8,8 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Environment;
-import android.os.Parcelable;
 import android.provider.MediaStore;
-
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
@@ -19,33 +18,26 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
-
 import com.cenfotec.proyecto.R;
 import com.cenfotec.proyecto.entities.Averia;
 import com.cenfotec.proyecto.entities.Ubicacion;
 import com.cenfotec.proyecto.entities.Usuario;
-import com.cenfotec.proyecto.helpers.PreferencesManager;
 import com.cenfotec.proyecto.logic.RespuestaImagen;
 import com.cenfotec.proyecto.logic.Variables;
 import com.cenfotec.proyecto.service.GestorServicio;
 import com.cenfotec.proyecto.service.ServicioAveria;
 import com.cenfotec.proyecto.service.ServicioImgur;
-import com.cenfotec.proyecto.ui.fragments.AveriasFragment;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 import com.squareup.picasso.Picasso;
-
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import okhttp3.MediaType;
@@ -148,18 +140,8 @@ public class UpdateAveriaActivity extends AppCompatActivity implements View.OnCl
         });
     }
 
-    private void actualizarAveria(){
-        //la ubicacion y el usuario quedan igual no se editan
-        averia.ubicacion = ubicacion;
-        averia.usuario = usuarioAveria;
+    private void actualizarAveria(View view){
 
-        //los demas datos de la averia tomarlos del layout
-        if(mUrlImagen != "")//si la foto se actualizó
-            averia.imagen = mUrlImagen;
-        averia.descripcion = descripcion.getText().toString();
-        averia.fecha = fecha.getText().toString();
-        averia.tipo = tipo.getText().toString();
-        averia.nombre = nombre.getText().toString();
 
     }
     @Override
@@ -172,37 +154,65 @@ public class UpdateAveriaActivity extends AppCompatActivity implements View.OnCl
             obtenerFecha();
         if(view.equals(botonEditar)){
 
-            //Se obtiene la referencia singleton desde el gestor.
-            ServicioAveria servicio = GestorServicio.obtenerServicio();
+            try {
 
-            //actualizar los valores de la averia
-            actualizarAveria();
+                //Se obtiene la referencia singleton desde el gestor.
+                ServicioAveria servicio = GestorServicio.obtenerServicio();
 
-            //Se llama al metodo definido en el servicio para editar la averia
-            servicio.editarAveria(averia.id, averia).enqueue(new Callback<Averia>() {
-                @Override
-                public void onResponse(Call<Averia> call, Response<Averia> response) {
-                    //Si es exitosa, recuperamos la lista recibida de response.body()
-                    Averia resultado = response.body();
+                if(nombre.getText().toString().trim().isEmpty()
+                        || tipo.getText().toString().trim().isEmpty()
+                        || fecha.getText().toString().trim().isEmpty()
+                        || descripcion.getText().toString().trim().isEmpty()){
 
-                    if(resultado !=null){
-                        Toast.makeText(getApplicationContext(),
-                                "Exito editando la averia",
-                                Toast.LENGTH_SHORT).show();
+                    Snackbar.make(view, "Por favor verifique los campos", Snackbar.LENGTH_LONG)
+                            .show();
+                }else {
+                    //la ubicacion y el usuario quedan igual no se editan
+                    averia.ubicacion = ubicacion;
+                    averia.usuario = usuarioAveria;
 
-                        Intent intent = new Intent(UpdateAveriaActivity.this, MainActivity.class);
-                        startActivity(intent);
-                        finish();
-                    }
+                    //los demas datos de la averia tomarlos del layout
+                    if (mUrlImagen != "")//si la foto se actualizó
+                        averia.imagen = mUrlImagen;
+                    averia.descripcion = descripcion.getText().toString();
+                    averia.fecha = fecha.getText().toString();
+                    averia.tipo = tipo.getText().toString();
+                    averia.nombre = nombre.getText().toString();
+
+
+                    //Se llama al metodo definido en el servicio para editar la averia
+                    servicio.editarAveria(averia.id, averia).enqueue(new Callback<Averia>() {
+                        @Override
+                        public void onResponse(Call<Averia> call, Response<Averia> response) {
+                            //Si es exitosa, recuperamos la lista recibida de response.body()
+                            Averia resultado = response.body();
+
+                            if(resultado !=null){
+                                Toast.makeText(getApplicationContext(),
+                                        "Exito editando la averia",
+                                        Toast.LENGTH_SHORT).show();
+
+                                Intent intent = new Intent(UpdateAveriaActivity.this, MainActivity.class);
+                                startActivity(intent);
+                                finish();
+                            }
+                        }
+                        @Override
+                        public void onFailure(Call<Averia> call, Throwable t) {
+
+                            Toast.makeText(getApplicationContext(),
+                                    "Ha ocurrido un error editando la averia",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 }
-                @Override
-                public void onFailure(Call<Averia> call, Throwable t) {
+            }catch (Exception e){
 
-                    Toast.makeText(getApplicationContext(),
-                            "Ha ocurrido un error editando la averia",
-                            Toast.LENGTH_SHORT).show();
-                }
-            });
+                Toast.makeText(getApplicationContext(),
+                        "Error editando la averia" + e.getMessage().toString(),
+                        Toast.LENGTH_SHORT).show();
+            }
+
         }//fin del boton editar
 
         if(view.equals(botonEliminar)){
@@ -247,7 +257,6 @@ public class UpdateAveriaActivity extends AppCompatActivity implements View.OnCl
                                     }
                                 });
 
-//
                             }catch (Exception e){
 
                                 Log.d("Error",e.getMessage().toString());
@@ -258,7 +267,7 @@ public class UpdateAveriaActivity extends AppCompatActivity implements View.OnCl
                     .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            Log.d("DelectContact", "Cancelando...");
+                            Log.d("EliminarAveria", "Cancelando...");
                         }
                     })
                     .show();

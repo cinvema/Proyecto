@@ -3,15 +3,12 @@ package com.cenfotec.proyecto.ui;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Handler;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-
 import com.cenfotec.proyecto.R;
+import com.cenfotec.proyecto.logic.Variables;
 
 public class SplashActivity extends Activity {
 
-    // Duración en milisegundos que se mostrará el splash
-    private final int DURACION_SPLASH = 1000; // 3 segundos 3000
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -27,6 +24,6 @@ public class SplashActivity extends Activity {
                 startActivity(intent);
                 finish();
             };
-        }, DURACION_SPLASH);
+        }, Variables.DURACION_SPLASH);
     }
 }

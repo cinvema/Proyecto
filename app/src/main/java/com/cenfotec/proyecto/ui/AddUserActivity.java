@@ -1,24 +1,18 @@
 package com.cenfotec.proyecto.ui;
 
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
 import com.cenfotec.proyecto.R;
-import com.cenfotec.proyecto.db.DatabaseHelper;
 import com.cenfotec.proyecto.entities.Usuario;
 import com.cenfotec.proyecto.logic.GestorUsuarios;
-
-import com.j256.ormlite.dao.Dao;
-
 import java.util.List;
 import android.support.design.widget.FloatingActionButton;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 public class AddUserActivity extends AppCompatActivity  implements View.OnClickListener {
 
@@ -64,42 +58,60 @@ public class AddUserActivity extends AppCompatActivity  implements View.OnClickL
 
         if (v.equals(botonAgregarUsuario)) {
             try {
-                String nombre = nombreTxt.getText().toString().trim();
-                String correo = correoTxt.getText().toString().trim();
-                String telefono = telefonoTxt.getText().toString().trim();
-                String cedula = cedulaTxt.getText().toString().trim();
-                String usuario = nombreUsuarioTxt.getText().toString().trim();
-                String contrasena = contrasenaTxt.getText().toString();
-                String contrasena2 = contrasena2Txt.getText().toString();
 
-                if (gestorUsuarios == null)
-                    gestorUsuarios = new GestorUsuarios(this);
+                if(nombreTxt.getText().toString().trim().isEmpty()
+                        || correoTxt.getText().toString().trim().isEmpty()
+                        || telefonoTxt.getText().toString().trim().isEmpty()
+                        || cedulaTxt.getText().toString().trim().isEmpty()
+                        || nombreUsuarioTxt.getText().toString().trim().isEmpty()
+                        || contrasenaTxt.getText().toString().trim().isEmpty()
+                        || contrasena2Txt.getText().toString().trim().isEmpty()){
 
-                if (!contrasena.equals(contrasena2)) {
-                    //MOSTRAR ERROR
-                    Toast.makeText(AddUserActivity.this, "Las contraseñas no coinciden.", Toast.LENGTH_SHORT).show();
-                    return;
-                }
+                    Snackbar.make(v, "Por favor verifique los campos", Snackbar.LENGTH_LONG)
+                            .show();
+                }else {
 
-                //Recuperamos todos los usuarios que tengan ese mismo username
-                List<Usuario> usuarios = gestorUsuarios.getUsuarios(usuario);
+                    //Se tienen todos los valores.
 
-                if (usuarios.size() > 0) {
-                    Toast.makeText(AddUserActivity.this, "El usuario ya existe.", Toast.LENGTH_SHORT).show();
-                    return;
-                }
 
-                Usuario nuevoUsuario = new Usuario();
-                nuevoUsuario.nombre = nombre;
-                nuevoUsuario.correo = correo;
-                nuevoUsuario.tel = telefono;
-                nuevoUsuario.cedula = cedula;
-                nuevoUsuario.usuario = usuario;
-                nuevoUsuario.contrasena = contrasena;
+                    String nombre = nombreTxt.getText().toString().trim();
+                    String correo = correoTxt.getText().toString().trim();
+                    String telefono = telefonoTxt.getText().toString().trim();
+                    String cedula = cedulaTxt.getText().toString().trim();
+                    String usuario = nombreUsuarioTxt.getText().toString().trim();
+                    String contrasena = contrasenaTxt.getText().toString();
+                    String contrasena2 = contrasena2Txt.getText().toString();
 
-                gestorUsuarios.createUsuario(nuevoUsuario);
+                    if (gestorUsuarios == null)
+                        gestorUsuarios = new GestorUsuarios(this);
 
-                finish();
+                    if (!contrasena.equals(contrasena2)) {
+                        //MOSTRAR ERROR
+                        Toast.makeText(AddUserActivity.this, "Las contraseñas no coinciden.", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                    //Recuperamos todos los usuarios que tengan ese mismo username
+                    List<Usuario> usuarios = gestorUsuarios.getUsuarios(usuario);
+
+                    if (usuarios.size() > 0) {
+                        Toast.makeText(AddUserActivity.this, "El usuario ya existe.", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                    Usuario nuevoUsuario = new Usuario();
+                    nuevoUsuario.nombre = nombre;
+                    nuevoUsuario.correo = correo;
+                    nuevoUsuario.tel = telefono;
+                    nuevoUsuario.cedula = cedula;
+                    nuevoUsuario.usuario = usuario;
+                    nuevoUsuario.contrasena = contrasena;
+
+                    gestorUsuarios.createUsuario(nuevoUsuario);
+
+                    Toast.makeText(AddUserActivity.this, "Usuario registrado exitosamente.", Toast.LENGTH_SHORT).show();
+                    finish();
+                }//fin del else
             } catch (Exception e) {
                 Toast.makeText(AddUserActivity.this, "Error creando cuenta.", Toast.LENGTH_SHORT).show();
             }

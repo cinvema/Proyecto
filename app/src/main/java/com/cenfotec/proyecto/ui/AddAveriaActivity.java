@@ -10,9 +10,9 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Environment;
-import android.provider.ContactsContract;
 import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
@@ -20,17 +20,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
-
 import com.cenfotec.proyecto.R;
 import com.cenfotec.proyecto.entities.Averia;
 import com.cenfotec.proyecto.entities.Ubicacion;
-import com.cenfotec.proyecto.entities.Upload;
 import com.cenfotec.proyecto.entities.Usuario;
 import com.cenfotec.proyecto.helpers.PreferencesManager;
 import com.cenfotec.proyecto.logic.RespuestaImagen;
@@ -40,9 +37,7 @@ import com.cenfotec.proyecto.service.ServicioAveria;
 import com.cenfotec.proyecto.service.ServicioImgur;
 import java.io.File;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import okhttp3.MediaType;
@@ -128,75 +123,98 @@ public class AddAveriaActivity extends AppCompatActivity implements View.OnClick
 
         if (v.equals(botonAgregar)) {
 
-            //armar el objeto averia segun lo que indique el usuario
-            averia = new Averia();
-            Ubicacion ubicacionAveria = new Ubicacion();
-            usuarioAveria = new Usuario();
+            try{
+                if(nombre.getText().toString().trim().isEmpty()
+                        || tipo.getText().toString().trim().isEmpty()
+                        || fecha.getText().toString().trim().isEmpty()
+                        || descripcion.getText().toString().trim().isEmpty()){
 
-            //obtener el usuario de la base de datos segun el usuario que este logueado
-            String usuarioStr = PreferencesManager.getUsernameFromPreferences(this);
-            //realizar la busqueda por el usuario logueado en la base de datos
+                    Snackbar.make(v, "Por favor verifique los campos", Snackbar.LENGTH_LONG)
+                            .show();
+                }else {
 
-            usuarioAveria.nombre = Variables.nombre;
-            usuarioAveria.correo = Variables.correo;
-            usuarioAveria.tel = Variables.tel;
-            usuarioAveria.cedula = Variables.cedula;
 
-            //obtener la ubicacion actual
+                    //armar el objeto averia segun lo que indique el usuario
+                    averia = new Averia();
+                    Ubicacion ubicacionAveria = new Ubicacion();
+                    usuarioAveria = new Usuario();
 
-            if(mValorNuevaAveria == 0){//si es una averia creada desde la lista
+                    //obtener el usuario de la base de datos segun el usuario que este logueado
+                    String usuarioStr = PreferencesManager.getUsernameFromPreferences(this);
+                    //realizar la busqueda por el usuario logueado en la base de datos
 
-                mLm = (LocationManager) getApplicationContext()
-                        .getSystemService(Context.LOCATION_SERVICE);
-                //ubicacion = verificarPermisosUbicacion();
-                ubicacionAveria =  obtenerLocalizacion();
-            }else if(mValorNuevaAveria == 1){ //si es una averia creada desde mapa
-                ubicacionAveria = mUbicacion;
+                    usuarioAveria.nombre = Variables.nombre;
+                    usuarioAveria.correo = Variables.correo;
+                    usuarioAveria.tel = Variables.tel;
+                    usuarioAveria.cedula = Variables.cedula;
 
-            }
+                    //obtener la ubicacion actual
 
-            //armar el objeto de la averia
-            averia.id = id.getText().toString();
-            averia.nombre = nombre.getText().toString();
-            averia.tipo = tipo.getText().toString();
-            averia.usuario = usuarioAveria;
-            averia.fecha = fecha.getText().toString();
-            averia.descripcion = descripcion.getText().toString();
-            averia.imagen = mUrlImagen;
-            averia.ubicacion = ubicacionAveria;
+                    if(mValorNuevaAveria == 0){//si es una averia creada desde la lista
 
-            //Se obtiene la referencia singleton desde el gestor.
-            ServicioAveria servicio = GestorServicio.obtenerServicio();
-
-            //Se llama al metodo definido en el servicio para crear la averia
-
-            servicio.crearNuevaAveria(averia).enqueue(new Callback<Averia>() {
-                @Override
-                public void onResponse(Call<Averia> call, Response<Averia> response) {
-                    //Si es exitosa, recuperamos la lista recibida de response.body()
-                    Averia resultado = response.body();
-
-                    if (resultado != null) {
-                        Toast.makeText(getApplicationContext(),
-                                "Exito registrando la averia",
-                                Toast.LENGTH_SHORT).show();
-
-                        Intent intent = new Intent(AddAveriaActivity.this, MainActivity.class);
-                        startActivity(intent);
-                        finish();
+                        mLm = (LocationManager) getApplicationContext()
+                                .getSystemService(Context.LOCATION_SERVICE);
+                        ubicacionAveria =  obtenerLocalizacion();
+                    }else if(mValorNuevaAveria == 1){ //si es una averia creada desde mapa
+                        ubicacionAveria = mUbicacion;
 
                     }
 
+                    //armar el objeto de la averia
+                    averia.id = id.getText().toString();
+                    averia.nombre = nombre.getText().toString();
+                    averia.tipo = tipo.getText().toString();
+                    averia.usuario = usuarioAveria;
+                    averia.fecha = fecha.getText().toString();
+                    averia.descripcion = descripcion.getText().toString();
+                    averia.imagen = mUrlImagen;
+                    averia.ubicacion = ubicacionAveria;
+
+                    //Se obtiene la referencia singleton desde el gestor.
+                    ServicioAveria servicio = GestorServicio.obtenerServicio();
+
+                    //Se llama al metodo definido en el servicio para crear la averia
+
+                    servicio.crearNuevaAveria(averia).enqueue(new Callback<Averia>() {
+                        @Override
+                        public void onResponse(Call<Averia> call, Response<Averia> response) {
+                            //Si es exitosa, recuperamos la lista recibida de response.body()
+                            Averia resultado = response.body();
+
+                            if (resultado != null) {
+                                Toast.makeText(getApplicationContext(),
+                                        "Exito registrando la averia",
+                                        Toast.LENGTH_SHORT).show();
+
+                                Intent intent = new Intent(AddAveriaActivity.this, MainActivity.class);
+                                startActivity(intent);
+                                finish();
+
+                            }
+
+                        }
+
+                        @Override
+                        public void onFailure(Call<Averia> call, Throwable t) {
+
+                            Toast.makeText(getApplicationContext(),
+                                    "Ha ocurrido un error registrando la averia",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
+
                 }
 
-                @Override
-                public void onFailure(Call<Averia> call, Throwable t) {
 
-                    Toast.makeText(getApplicationContext(),
-                            "Ha ocurrido un error registrando la averia",
-                            Toast.LENGTH_SHORT).show();
-                }
-            });
+            }catch (Exception e){
+
+                Toast.makeText(getApplicationContext(),
+                        "Ha ocurrido un error registrando la averia",
+                        Toast.LENGTH_SHORT).show();
+
+            }
+
         }//fin del boton agregar
     }//fin del onClick
 
